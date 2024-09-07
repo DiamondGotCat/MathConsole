@@ -5,6 +5,11 @@ Python Interpreter for Mathematics
 The software does not yet support indentation.
 However, I think it can be used as an interpreter for mathematics.
 
+## About Plugins
+This software has the ability to add other software and make it available within the software in the form of plugins.
+For example:
+- [Tester](https://github.com/DiamondGotCat/Tester-for-MathConsole) - Test software for plugin system
+
 ## Usage
 1. run command `mathconsole` to start MathConsole Interpreter
 2. enter one line python code

@@ -1,10 +1,61 @@
+import os
+import readline
 import datetime as dt
 from rich.prompt import Prompt
 from rich.console import Console
+from rich.table import Table
+
+# Define Rich Console
 
 console = Console()
 
+# Setting
+
+readline.parse_and_bind("tab: complete")
+readline.parse_and_bind("set editing-mode vi")
+
+# Welcome
+
 console.print("[bold blue]M[/bold blue]: Welcome to MathConsole")
+
+# Load Plugins
+
+def list_files_in_directory(directory):
+    files = os.listdir(directory)
+    return files
+
+def process_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+        pluginresult = {}
+        exec(content, globals(), pluginresult)
+        globals().update(pluginresult)
+
+def defineplugins(directory):
+    files = list_files_in_directory(directory)
+
+    for file in files:
+        file_path = os.path.join(directory, file)
+        if os.path.isfile(file_path):
+            process_file(file_path)
+        else:
+            defineplugins(file_path)
+
+directory_path = "/usr/local/share/mathconsole"
+
+try:
+    os.mkdir(directory_path)
+except FileExistsError:
+    pass
+
+try:
+    os.mkdir(directory_path + "/plugins")
+except FileExistsError:
+    pass
+
+defineplugins(directory_path + "/plugins")
+
+# Define Standard Functions
 
 now = dt.datetime.now() 
 
@@ -21,6 +72,8 @@ def time(a=now.hour,b=now.minute,c=now.second):
 def datetime(a=now.year,b=now.month,c=now.day,d=now.hour,e=now.minute,f=now.second): 
     return dt.datetime(a,b,c,d,e,f) 
 
+# Define Variables
+
 that: any = 0
 prev_prompt = ""
 prev_result: any = 0
@@ -31,7 +84,7 @@ while True:
 
     try:
 
-        prev_prompt = Prompt.ask(f"[bold blue]P{prompt_index}[/bold blue]")
+        prev_prompt = input(">>> ")
         prompt = "result = " + prev_prompt
         
         result = exec(prompt, globals(), local_vars)

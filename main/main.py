@@ -89,6 +89,7 @@ while True:
         
         result = exec(prompt, globals(), local_vars)
         console.print(f"[bold green]M[/bold green]:", local_vars.get('result'))
+        globals().update(local_vars)
         that = local_vars.get('result')
         prev_result = that
         prompt_index += 1

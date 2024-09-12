@@ -72,6 +72,33 @@ def time(a=now.hour,b=now.minute,c=now.second):
 def datetime(a=now.year,b=now.month,c=now.day,d=now.hour,e=now.minute,f=now.second): 
     return dt.datetime(a,b,c,d,e,f) 
 
+def prime_factors(n):
+    factors = []
+    # 2で割れる限り割る
+    while n % 2 == 0:
+        factors.append(2)
+        n = n // 2
+
+    # 3以上の奇数で割れる限り割る
+    for i in range(3, int(n**0.5) + 1, 2):
+        while n % i == 0:
+            factors.append(i)
+            n = n // i
+
+    # 最後にnが素数で残っていれば追加
+    if n > 2:
+        factors.append(n)
+
+    text = f"{n} = " + " * ".join(map(int, factors)) + "\n"
+
+    for i in range(1, len(factors) + 1):
+        text += f"   #{i}: {factors[i]} [ {"- " * factors[i]}] \n"
+
+    console.print(f"[bold green]M[/bold green]: \n", text)
+    
+    return n
+prfa = prime_factors
+
 # Define Variables
 
 that: any = 0

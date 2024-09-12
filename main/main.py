@@ -94,7 +94,7 @@ def prime_factors(n):
     for i in range(1, len(factors) + 1):
         text += f"   #{i}: {factors[i]} [ {"- " * factors[i]}] \n"
 
-    console.print(f"[bold green]M[/bold green]: \n", text)
+    result2 = f"[bold green]M[/bold green]: \n", text
     
     return n
 prfa = prime_factors
@@ -106,6 +106,7 @@ prev_prompt = ""
 prev_result: any = 0
 prompt_index = 0
 local_vars = {}
+result2 = ""
 
 while True:
 
@@ -115,6 +116,7 @@ while True:
         prompt = "result = " + prev_prompt
         
         result = exec(prompt, globals(), local_vars)
+        console.print(local_vars.get('result2'))
         console.print(f"[bold green]M[/bold green]:", local_vars.get('result'))
         globals().update(local_vars)
         that = local_vars.get('result')

@@ -1,5 +1,5 @@
 # MathConsole
-Python Interpreter for Mathematics
+Python Console for Mathematics
 
 ## Note
 The software does not yet support indentation.

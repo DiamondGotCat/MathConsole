@@ -108,8 +108,11 @@ def mc():
         try:
     
             prev_prompt = input(">>> ")
-            prompt = "result = " + prev_prompt
             
+            if prev_prompt == "back()":
+                break
+            
+            prompt = "result = " + prev_prompt
             result = exec(prompt, globals(), local_vars)
             console.print(local_vars.get('result2'))
             console.print(f"[bold green]M[/bold green]:", local_vars.get('result'))

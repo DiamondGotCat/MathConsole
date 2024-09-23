@@ -110,6 +110,7 @@ def mc():
             prev_prompt = input(">>> ")
             
             if prev_prompt == "back()":
+                prompt_index = 0
                 break
             
             prompt = "result = " + prev_prompt

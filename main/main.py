@@ -99,6 +99,37 @@ def prime_factors(n):
     return n
 prfa = prime_factors
 
+# Main
+
+def mc():
+    
+    while True:
+
+        try:
+    
+            prev_prompt = input(">>> ")
+            prompt = "result = " + prev_prompt
+            
+            result = exec(prompt, globals(), local_vars)
+            console.print(local_vars.get('result2'))
+            console.print(f"[bold green]M[/bold green]:", local_vars.get('result'))
+            globals().update(local_vars)
+            that = local_vars.get('result')
+            prev_result = that
+            prompt_index += 1
+    
+        except KeyboardInterrupt:
+            print()
+            console.print("[bold yellow]E[/bold yellow]: Bye!")
+            exit(0)
+    
+        except Exception as error:
+    
+            if not error == "'result'":
+    
+                console.print(f"[bold red]E[/bold red]: {error}")
+                prompt_index += 1
+
 # Define Variables
 
 that: any = 0
@@ -108,31 +139,6 @@ prompt_index = 0
 local_vars = {}
 result2 = ""
 
-while True:
-
-    try:
-
-        prev_prompt = input(">>> ")
-        prompt = "result = " + prev_prompt
-        
-        result = exec(prompt, globals(), local_vars)
-        console.print(local_vars.get('result2'))
-        console.print(f"[bold green]M[/bold green]:", local_vars.get('result'))
-        globals().update(local_vars)
-        that = local_vars.get('result')
-        prev_result = that
-        prompt_index += 1
-
-    except KeyboardInterrupt:
-        print()
-        console.print("[bold yellow]E[/bold yellow]: Bye!")
-        exit(0)
-
-    except Exception as error:
-
-        if not error == "'result'":
-
-            console.print(f"[bold red]E[/bold red]: {error}")
-            prompt_index += 1
-
+# Main
+mc()
 

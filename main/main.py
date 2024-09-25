@@ -55,6 +55,15 @@ except FileExistsError:
 
 defineplugins(directory_path + "/plugins")
 
+# Define Variables
+
+that: any = 0
+prev_prompt = ""
+prev_result: any = 0
+prompt_index = 0
+local_vars = {}
+result2: any = ""
+
 # Define Standard Functions
 
 now = dt.datetime.now() 
@@ -72,7 +81,9 @@ def time(a=now.hour,b=now.minute,c=now.second):
 def datetime(a=now.year,b=now.month,c=now.day,d=now.hour,e=now.minute,f=now.second): 
     return dt.datetime(a,b,c,d,e,f) 
 
-def prime_factors(n):
+def prime_factors(ni):
+    global result2
+    n = int(ni)
     factors = []
     # 2で割れる限り割る
     while n % 2 == 0:
@@ -89,60 +100,41 @@ def prime_factors(n):
     if n > 2:
         factors.append(n)
 
-    text = f"{n} = " + " * ".join(map(int, factors)) + "\n"
+    text = f"{ni} = " + " * ".join(map(str, factors)) + "\n"
 
-    for i in range(1, len(factors) + 1):
+    for i in range(1, len(factors)):
         text += f"   #{i}: {factors[i]} [ {"- " * factors[i]}] \n"
 
-    result2 = f"[bold green]M[/bold green]: \n", text
+    result2 = text
     
     return n
 prfa = prime_factors
 
-# Main
+while True:
 
-def mc():
-    
-    while True:
+    try:
 
-        try:
-    
-            prev_prompt = input(">>> ")
-            
-            if prev_prompt == "back()":
-                prompt_index = 0
-                break
-            
-            prompt = "result = " + prev_prompt
-            result = exec(prompt, globals(), local_vars)
-            console.print(local_vars.get('result2'))
-            console.print(f"[bold green]M[/bold green]:", local_vars.get('result'))
-            globals().update(local_vars)
-            that = local_vars.get('result')
-            prev_result = that
+        prev_prompt = input(">>> ")
+        prompt = "result = " + prev_prompt
+        
+        result = exec(prompt, globals(), local_vars)
+        console.print("[bold green]M[/bold green]:", local_vars.get('result'))
+        console.print("[bold green]T[/bold green]:", local_vars.get('result2'))
+        globals().update(local_vars)
+        that = local_vars.get('result')
+        prev_result = that
+        prompt_index += 1
+
+    except KeyboardInterrupt:
+        print()
+        console.print("[bold yellow]E[/bold yellow]: Bye!")
+        exit(0)
+
+    except Exception as error:
+
+        if not error == "'result'":
+
+            console.print(f"[bold red]E[/bold red]: {error}")
             prompt_index += 1
-    
-        except KeyboardInterrupt:
-            print()
-            console.print("[bold yellow]E[/bold yellow]: Bye!")
-            exit(0)
-    
-        except Exception as error:
-    
-            if not error == "'result'":
-    
-                console.print(f"[bold red]E[/bold red]: {error}")
-                prompt_index += 1
 
-# Define Variables
-
-that: any = 0
-prev_prompt = ""
-prev_result: any = 0
-prompt_index = 0
-local_vars = {}
-result2 = ""
-
-# Main
-mc()
 
